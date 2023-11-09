@@ -1,4 +1,5 @@
 <template>
+  <h1 style="margin-top: 50px;">ADMIN LOGIN PAGE</h1>
   <form @submit.prevent="submit">
     <label>Email </label>
     <input type="email" required v-model="email">

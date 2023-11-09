@@ -1,4 +1,5 @@
 <template>
+  <nav style="text-align: right;" @click="logout">Logout</nav>
   <form @submit.prevent="tampilkanSemuaData">
     <h3>Daftar Mahasiswa</h3>
     <table v-if="mahasiswas && mahasiswas.length">
@@ -221,6 +222,34 @@ export default {
         this.$router.replace('/home');
       }
     },
+
+    async logout() {
+      try {
+        const resp = await fetch(`http://localhost:3000/api/users/logout`, {
+          method: "POST",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nama: '',
+            email: '',
+          })
+        })
+        if (!resp.ok) {
+          const errorMsg = (await resp.json())?.errors[0].message;
+          throw new Error(errorMsg);
+        }
+        // const mahasiswa = await resp.json();
+        // console.log(mahasiswa)
+        this.$router.replace('/sign-in')
+      }
+
+      catch (error) {
+        alert(error.message);
+        this.$router.replace('/home');
+      }
+    }
   }
 }
 </script>
