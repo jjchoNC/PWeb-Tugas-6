@@ -1,5 +1,8 @@
 <template>
-  <nav style="text-align: right;" @click="logout">Logout</nav>
+  <nav style="text-align: right;">
+    <span class="logout" @click="logout">Logout</span>
+  </nav>
+  <h1>Pusat Data</h1>
   <form @submit.prevent="tampilkanSemuaData">
     <h3>Daftar Mahasiswa</h3>
     <table v-if="mahasiswas && mahasiswas.length">
@@ -292,13 +295,14 @@ button {
   margin-top: 50px;
   color: white;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .submit {
   text-align: center;
 }
 
-h5{
+h5 {
   text-align: center;
 }
 
@@ -312,7 +316,8 @@ table {
   width: 80%;
 }
 
-th,td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -324,4 +329,17 @@ th {
 
 tbody {
   text-align: center;
-}</style>
+}
+
+nav {
+  background: #2b87ff;
+  text-align: right;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.logout{
+  cursor: pointer;
+}
+</style>
