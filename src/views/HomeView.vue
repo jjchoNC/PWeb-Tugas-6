@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="tampilkanSemuaData">
     <h3>Daftar Mahasiswa</h3>
-    <table>
+    <table v-if="mahasiswas && mahasiswas.length">
       <thead>
         <tr>
           <th>Nama</th>
@@ -105,7 +105,8 @@ export default {
       }
 
       catch (error) {
-        alert("Sign in error " + error.message);
+        alert(error.message);
+        this.$router.replace('/sign-in');
       }
     },
 
@@ -135,7 +136,8 @@ export default {
       }
 
       catch (error) {
-        alert("Sign in error " + error.message);
+        alert(error.message);
+        this.$router.replace('/home');
       }
     },
 
@@ -162,7 +164,8 @@ export default {
       }
 
       catch (error) {
-        alert("Sign in error " + error.message);
+        alert(error.message);
+        this.$router.replace('/home');
       }
     },
 
@@ -184,7 +187,8 @@ export default {
       }
 
       catch (error) {
-        alert("Sign in error " + error.message);
+        alert(error.message);
+        this.$router.replace('/home');
       }
       this.tampilkanSemuaData();
     },
@@ -209,11 +213,12 @@ export default {
         // const mahasiswa = await resp.json();
         // console.log(mahasiswa)
         alert("Data berhasil diedit");
-        this.tampilkanSemuaData
+        this.tampilkanSemuaData();
       }
 
       catch (error) {
-        alert("Sign in error " + error.message);
+        alert(error.message);
+        this.$router.replace('/home');
       }
     },
   }

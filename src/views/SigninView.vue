@@ -40,6 +40,7 @@ export default {
         }
         const user = await resp.json();
         console.log(user.message)
+        this.$router.replace('/home');
       } 
 
       catch (error) {
