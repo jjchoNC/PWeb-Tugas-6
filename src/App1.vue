@@ -1,15 +1,15 @@
 <template>
-  <HomePage/>
+  <Signin/>
 </template>
 
 <script>
 
-import HomePage from './components/HomePage.vue'
+import Signin from './components/SigninForm.vue'
 
 export default {
   name: 'App',
   components: {
-    HomePage
+    Signin
   }
 }
 </script>
