@@ -1,11 +1,23 @@
 <template>
-  <form v-if="mahasiswas && mahasiswas.length">
+  <form @submit.prevent="tampilkanSemuaData">
     <h3>Daftar Mahasiswa</h3>
-    <ul>
-      <li v-for="mahasiswa in mahasiswas" :key="mahasiswa.id" class="data">
-        Nama : {{ mahasiswa.nama }} [IPK : {{ mahasiswa.ipk }}]
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>IPK</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="mahasiswa in mahasiswas" :key="mahasiswa.id">
+          <td>{{ mahasiswa.nama }}</td>
+          <td>{{ mahasiswa.ipk }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="submit">
+      <button>Tampilkan Semua Data</button>
+    </div>
   </form>
 
   <form @submit.prevent="cariData">
@@ -47,7 +59,6 @@
       <button>Edit</button>
     </div>
   </form>
-
 </template>
 
 <script>
@@ -64,14 +75,37 @@ export default {
     }
   },
   methods: {
-    tampilkanData(m) {
-      this.mahasiswas = m.docs;
-    },
+    async tampilkanSemuaData() {
+      this.mahasiswas = []
+      try {
+        const resp = await fetch(`http://localhost:3000/api/mahasiswa`, {
+          method: "GET",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        if (!resp.ok) {
+          const errorMsg = (await resp.json())?.errors[0].message;
+          throw new Error(errorMsg);
+        }
+        const mahasiswa = await resp.json();
+        // console.log(mahasiswa)
+        console.log(this.mahasiswas.indexOf(mahasiswa))
+        if (mahasiswa.docs.length > 0) {
+          for (const data in mahasiswa.docs) {
+            console.log(mahasiswa.docs[data])
+            this.mahasiswas.push(mahasiswa.docs[data])
+          }
+        }
+        else {
+          alert("Nama tidak ditemukan");
+        }
 
-    tampilkanSemuaData(m) {
-      for (const data in m.docs) {
-        console.log(m.docs[data])
-        this.mahasiswas.push(m.docs[data])
+      }
+
+      catch (error) {
+        alert("Sign in error " + error.message);
       }
     },
 
@@ -90,12 +124,14 @@ export default {
         }
         const mahasiswa = await resp.json();
         // console.log(mahasiswa)
+        console.log(this.mahasiswas.indexOf(mahasiswa))
         if (mahasiswa.docs.length > 0) {
-          this.tampilkanData(mahasiswa);
+          this.mahasiswas = mahasiswa.docs;
         }
         else {
           alert("Nama tidak ditemukan");
         }
+
       }
 
       catch (error) {
@@ -144,8 +180,36 @@ export default {
           throw new Error(errorMsg);
         }
         // const mahasiswa = await resp.json();
-        // console.log(mahasiswa)
         alert("Data berhasil dihapus");
+      }
+
+      catch (error) {
+        alert("Sign in error " + error.message);
+      }
+      this.tampilkanSemuaData();
+    },
+
+    async editData() {
+      try {
+        const resp = await fetch(`http://localhost:3000/api/mahasiswa?where[nama][equals]=${this.namaEdit}`, {
+          method: "PATCH",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nama: this.namaEdit,
+            ipk: this.ipkEdit,
+          })
+        })
+        if (!resp.ok) {
+          const errorMsg = (await resp.json())?.errors[0].message;
+          throw new Error(errorMsg);
+        }
+        // const mahasiswa = await resp.json();
+        // console.log(mahasiswa)
+        alert("Data berhasil diedit");
+        this.tampilkanSemuaData
       }
 
       catch (error) {
@@ -157,7 +221,6 @@ export default {
 </script>
 
 <style>
-
 form {
   max-width: 420px;
   margin: 30px auto;
@@ -201,12 +264,30 @@ button {
   text-align: center;
 }
 
-li {
-  margin-left: -25px;
-  font-size: 0.8em;
+h5{
+  text-align: center;
 }
 
 h3 {
   text-align: center;
 }
-</style>
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th,td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tbody {
+  text-align: center;
+}</style>
