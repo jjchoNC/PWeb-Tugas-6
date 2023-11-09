@@ -259,6 +259,7 @@ export default {
 
 <style>
 form {
+  width: 100%;
   max-width: 420px;
   margin: 30px auto;
   background: white;

@@ -1,5 +1,17 @@
 # PWeb-Tugas-6
 
+## Admin Login Page
+<div style="text-align: center;">
+    <img src="img/Admin.jpeg" alt="Admin Page" style="width: 50%;">
+</div>
+
+## Home Page
+<div style="text-align: center;">
+    <img src="img/Web.jpeg" alt="Home Page" style="width: 50%;">
+</div>
+
+
+
 ## Project setup
 ```
 npm install
