@@ -94,7 +94,7 @@ export default {
           throw new Error(errorMsg);
         }
         const mahasiswa = await resp.json();
-        // console.log(mahasiswa)
+        console.log(mahasiswa)
         console.log(this.mahasiswas.indexOf(mahasiswa))
         if (mahasiswa.docs.length > 0) {
           for (const data in mahasiswa.docs) {
